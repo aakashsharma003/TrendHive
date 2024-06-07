@@ -1,0 +1,20 @@
+.product-card {
+  width: 100%;
+  max-width: 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: auto; /* Center cards within the grid */
+}
+
+.product-image {
+  object-fit: cover;
+}
+
+.product-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

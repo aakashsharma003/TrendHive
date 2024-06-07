@@ -1,0 +1,26 @@
+.about-container {
+  background-image: url("/aboutus.jpg"); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  padding: 50px 0; /* Adjust as needed for spacing */
+  height: 100vh;
+}
+
+.about-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6); /* Adjust the overlay color and opacity */
+  backdrop-filter: blur(10px); /* Adjust the blur intensity */
+  z-index: 1;
+}
+
+.relative.z-10 {
+  position: relative;
+  z-index: 10;
+}
