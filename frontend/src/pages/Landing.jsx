@@ -49,7 +49,7 @@ const Landing = () => {
               <ProductElement
                 id={product._id}
                 title={product.title}
-                image={"/Shop.jpg"}
+                image={"/shop.jpg"}
                 rating={product.rating}
                 price={product.price}
               />

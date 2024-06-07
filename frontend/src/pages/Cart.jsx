@@ -39,7 +39,7 @@ const Cart = () => {
         {cartItems.map((item) => (
           <Grid item key={item.id} xs={12} sm={6} md={4} lg={3}>
             <div className="border p-4">
-              <img src={"/Shop.jpg"} alt={item.name} className="w-full" />
+              <img src={"/shop.jpg"} alt={item.name} className="w-full" />
               <Typography variant="h6">{item.name}</Typography>
               <Typography variant="body1">Quantity: {item.quantity}</Typography>
               <Typography variant="h5" className="my-2">
