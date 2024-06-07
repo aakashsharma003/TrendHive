@@ -17,12 +17,14 @@ import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import ThankYou from "./pages/ThankYou";
 import OrderHistory from "./pages/OrderHistory";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/" element={<HomeLayout />}>
             <Route index element={<Landing />} />
             <Route path="shop" element={<Shop />} />

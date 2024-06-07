@@ -25,16 +25,37 @@ const getProductInfo = async (req, res) => {
 };
 
 const addNewProduct = async (req, res) => {
-  const newProduct = new Product(req.body);
+  const {
+    title,
+    price,
+    description,
+    imageURL,
+    stock_quantity,
+    rating,
+    category_id,
+  } = req.body;
+
+  const newProduct = new Product({
+    title,
+    price: Number(price),
+    description,
+    imageURL,
+    stock_quantity: Number(stock_quantity),
+    rating: Number(rating),
+    category_id,
+  });
+  // console.log(req.body);
   try {
     const savedProduct = await newProduct.save();
-    res.send({ message: "Added new product", product: savedProduct });
+
+    res.json({ message: "Added new product", product: savedProduct });
   } catch (err) {
     res.status(500).send({ message: "Error adding product" });
   }
 };
 
-const UpdateProductWithId = async (req, res) => {
+// Update product by ID
+const updateProductWithId = async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
@@ -51,9 +72,12 @@ const UpdateProductWithId = async (req, res) => {
   }
 };
 
+// Delete product by ID
 const deleteProductWithId = async (req, res) => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    const deletedProduct = await Product.findByIdAndDelete(
+      req.params.productId
+    );
     if (deletedProduct) {
       res.send({ message: "Deleted product successfully" });
     } else {
@@ -63,11 +87,10 @@ const deleteProductWithId = async (req, res) => {
     res.status(500).send({ message: "Error deleting product" });
   }
 };
-
 module.exports = {
   getAllProducts,
   getProductInfo,
   addNewProduct,
-  UpdateProductWithId,
+  updateProductWithId,
   deleteProductWithId,
 };
