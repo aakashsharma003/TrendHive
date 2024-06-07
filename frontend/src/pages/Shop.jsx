@@ -80,7 +80,7 @@ const Shop = () => {
                     <ProductElement
                       id={product._id}
                       title={product.title}
-                      image={"/public/Shop.jpg"}
+                      image={"/Shop.jpg"}
                       rating={product.rating}
                       price={product.price}
                     />
