@@ -25,7 +25,11 @@ const Cart = () => {
 
     fetchCartItems();
   }, []);
-
+  const handleRemove = async () => {
+    try {
+      const res = await axios.delete(`${Server}`);
+    } catch (err) {}
+  };
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -49,7 +53,11 @@ const Cart = () => {
               <Typography variant="h5" className="my-2">
                 ${item.product.price}
               </Typography>
-              <Button variant="contained" color="secondary">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleRemove}
+              >
                 Remove
               </Button>
             </div>
