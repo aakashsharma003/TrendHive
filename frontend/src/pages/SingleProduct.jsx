@@ -28,8 +28,20 @@ const SingleProduct = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`${Server}/reviews/${id}`);
+        setReviews(response.data.reviews);
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to fetch reviews");
+        setLoading(false);
+      }
+    };
+
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`${Server}/products/${id}`);
@@ -42,6 +54,7 @@ const SingleProduct = () => {
     };
 
     fetchProduct();
+    fetchReviews();
   }, [id]);
 
   const addToCartHandler = async () => {
@@ -181,20 +194,23 @@ const SingleProduct = () => {
         <Typography variant="h4" className="my-4">
           Reviews
         </Typography>
-        {product.reviews && product.reviews.length > 0 ? (
+        {reviews && reviews.length > 0 ? (
           <Grid container spacing={3}>
-            {product.reviews.map((review, index) => (
+            {reviews.map((review, index) => (
               <Grid item xs={12} md={6} key={index}>
                 <Card>
                   <CardContent>
                     <Box display="flex" alignItems="center" mb={2}>
-                      <Avatar>{review.user[0]}</Avatar>
+                      <Avatar sx={{ marginX: "1rem" }}>{"U"}</Avatar>
                       <Typography variant="h6" className="ml-2">
-                        {review.user}
+                        {"User"}
                       </Typography>
                     </Box>
                     <Rating value={review.rating} readOnly />
                     <Typography variant="body1">{review.comment}</Typography>
+                    <Typography variant="body2">
+                      {review.review_date}
+                    </Typography>
                   </CardContent>
                 </Card>
               </Grid>

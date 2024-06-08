@@ -2,8 +2,14 @@ const { Review } = require("../models/schema");
 
 const getProductReviews = async (req, res) => {
   try {
-    const reviews = await Review.find({ product: req.params.productId });
-    res.status(200).json(reviews);
+    const reviews = await Review.find({
+      product_id: req.params.productId,
+    });
+    const reviews2 = await Review.find({
+      product_id: "66612ca87fa2d7f414e56765",
+    });
+    // console.log("reviews")
+    res.status(200).send({ reviews: reviews ? reviews : reviews2 });
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch reviews" });
   }
