@@ -124,7 +124,7 @@ const SingleProduct = () => {
           <Typography variant="h2">{product.title}</Typography>
           <Rating value={product.rating} readOnly />
           <Typography variant="h4" className="my-4">
-            Price: ${product.price}
+            Price: Rs {product.price}
           </Typography>
           <Typography variant="h4" className="my-4">
             Available: {product.stock_quantity}

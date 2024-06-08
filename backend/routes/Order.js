@@ -9,7 +9,7 @@ const {
 const { checkAuth } = require("../middlewares/auth");
 const OrderRouter = express.Router();
 
-OrderRouter.get("/", getOrders);
+OrderRouter.get("/:userId", checkAuth, getOrders);
 OrderRouter.get("/:orderId", checkAuth, getOrderById);
 OrderRouter.post("/", checkAuth, placeOrder);
 OrderRouter.put("/:orderId", checkAuth, updateOrder);

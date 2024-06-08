@@ -37,13 +37,17 @@ const Cart = () => {
       </Typography>
       <Grid container spacing={3}>
         {cartItems.map((item) => (
-          <Grid item key={item.id} xs={12} sm={6} md={4} lg={3}>
+          <Grid item key={item._id} xs={12} sm={6} md={4} lg={3}>
             <div className="border p-4">
-              <img src={"/shop.jpg"} alt={item.name} className="w-full" />
-              <Typography variant="h6">{item.name}</Typography>
+              <img
+                src={"/shop.jpg"}
+                alt={item.product._id}
+                className="w-full"
+              />
+              <Typography variant="h6">{item.product.title}</Typography>
               <Typography variant="body1">Quantity: {item.quantity}</Typography>
               <Typography variant="h5" className="my-2">
-                ${item.price.current.value}
+                ${item.product.price}
               </Typography>
               <Button variant="contained" color="secondary">
                 Remove

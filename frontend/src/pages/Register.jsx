@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Container, Typography, TextField, Button, Box } from "@mui/material";
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,10 +19,13 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [address, setAddress] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading(true);
     try {
-      e.preventDefault();
       const response = await axios.post(
         `${Server}/auth/signup`,
         {},
@@ -37,9 +47,12 @@ const Register = () => {
 
       toast.success(message);
       navigate("/");
+      window.location.reload();
     } catch (err) {
       console.error("Registration failed:", err);
       toast.error("Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,20 +72,20 @@ const Register = () => {
           <TextField
             label="Name"
             fullWidth
-            type={"text"}
+            type="text"
             margin="normal"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            required={"required"}
+            required
           />
           <TextField
             label="Email"
             fullWidth
             margin="normal"
             value={email}
-            type={"email"}
+            type="email"
             onChange={(e) => setEmail(e.target.value)}
-            required={"required"}
+            required
           />
           <TextField
             label="Password"
@@ -81,7 +94,7 @@ const Register = () => {
             margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required={"required"}
+            required
           />
           <TextField
             label="Mobile no"
@@ -89,7 +102,7 @@ const Register = () => {
             fullWidth
             margin="normal"
             value={phoneNo}
-            required={"required"}
+            required
             onChange={(e) => setPhoneNo(e.target.value)}
           />
           <TextField
@@ -97,17 +110,30 @@ const Register = () => {
             fullWidth
             margin="normal"
             value={address}
-            required={"required"}
+            required
             onChange={(e) => setAddress(e.target.value)}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            className="mt-4 w-full"
-            type={"submit"}
+          <Box
+            position="relative"
+            display="flex"
+            justifyContent="center"
+            mt={2}
           >
-            Register
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className="mt-4 w-full"
+              type="submit"
+              disabled={loading}
+              style={{ marginTop: "16px" }}
+            >
+              {loading ? (
+                <CircularProgress size={24} style={{ color: "white" }} />
+              ) : (
+                "Register"
+              )}
+            </Button>
+          </Box>
           <Typography
             variant="body2"
             align="center"

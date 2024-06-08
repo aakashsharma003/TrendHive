@@ -31,12 +31,11 @@ const productSchema = new mongoose.Schema({
   rating: Number,
 });
 
-// Defining schema for Orders collection
 const orderSchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   total_amount: Number,
-  order_date: Date,
-  status: String,
+  order_date: { type: Date, default: Date.now },
+  status: { type: String, default: "Pending" },
 });
 
 // Defining schema for Order_Items collection
