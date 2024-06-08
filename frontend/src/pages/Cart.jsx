@@ -25,11 +25,11 @@ const Cart = () => {
 
     fetchCartItems();
   }, []);
-  const handleRemove = async () => {
-    try {
-      const res = await axios.delete(`${Server}`);
-    } catch (err) {}
-  };
+  // const handleRemove = async () => {
+  //   try {
+  //     const res = await axios.delete(`${Server}`);
+  //   } catch (err) {}
+  // };
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -56,7 +56,7 @@ const Cart = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={handleRemove}
+                // onClick={handleRemove}
               >
                 Remove
               </Button>
