@@ -4,6 +4,7 @@ const getUserCart = async (req, res) => {
   try {
     // Find the cart for the user
     const cart = await Cart.findOne({ user_id: req.params.userId });
+    // console.log(cart);
     if (!cart) {
       return res.status(200).send({ cart: [] });
     }
@@ -12,22 +13,25 @@ const getUserCart = async (req, res) => {
     const cartItems = await Cart_Item.find({ cart_id: cart._id }).populate(
       "product_id"
     );
+    console.log(cartItems);
 
     // Transform cart items to include SKU
     const cartItemsWithSKU = cartItems.map((item) => ({
-      _id: item._id,
+      _id: item?._id,
       product: {
-        _id: item.product_id._id,
-        title: item.product_id.title,
-        price: item.product_id.price,
-        sku: item.product_id.sku, // assuming the product schema has an SKU field
-        description: item.product_id.description,
+        _id: item?.product_id?._id,
+        title: item?.product_id?.title,
+        price: item?.product_id?.price,
+        sku: item?.product_id?.sku,
+        description: item?.product_id?.description,
       },
-      quantity: item.quantity,
+      quantity: item?.quantity,
     }));
+    console.log(cartItemsWithSKU);
 
     res.status(200).send({ cart: cartItemsWithSKU });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: "Failed to fetch cart" });
   }
 };
@@ -89,12 +93,39 @@ const updateCartItem = async (req, res) => {
 
 const removeFromCart = async (req, res) => {
   try {
-    const cart = await Cart.findOneAndUpdate(
-      { userId: req.params.userId },
-      { $pull: { items: { product: req.params.productId } } },
-      { new: true }
-    ).populate("items.product");
-    res.status(200).json(cart);
+    const userId = req.params.userId;
+    const productId = req.params.productId;
+
+    // Find the cart for the user
+    const cart = await Cart.findOne({ user_id: userId });
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
+
+    // Find the cart item to be removed
+    const cartItem = await Cart_Item.findOne({
+      cart_id: cart._id,
+      product_id: productId,
+    });
+    if (!cartItem) {
+      return res.status(404).json({ error: "Item not found in cart" });
+    }
+
+    // Remove the cart item
+    await Cart_Item.deleteOne({ _id: cartItem._id });
+
+    // Get the updated cart items
+    const updatedCartItems = await Cart_Item.find({
+      cart_id: cart._id,
+    }).populate("product_id");
+
+    res
+      .status(200)
+      .json({
+        cart: cart._id,
+        items: updatedCartItems,
+        message: "Item Removed Successfully",
+      });
   } catch (err) {
     res.status(500).json({ error: "Failed to remove from cart" });
   }

@@ -196,7 +196,7 @@ const SingleProduct = () => {
         </Typography>
         {reviews && reviews.length > 0 ? (
           <Grid container spacing={3}>
-            {reviews.map((review, index) => (
+            {reviews?.map((review, index) => (
               <Grid item xs={12} md={6} key={index}>
                 <Card>
                   <CardContent>

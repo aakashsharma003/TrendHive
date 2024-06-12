@@ -5,11 +5,15 @@ const getProductReviews = async (req, res) => {
     const reviews = await Review.find({
       product_id: req.params.productId,
     });
+
     const reviews2 = await Review.find({
-      product_id: "66612ca87fa2d7f414e56765",
+      product_id: "66612ca87fa2d7f414e567ac",
     });
-    res.status(200).send({ reviews: reviews ? reviews : reviews2 });
+    console.log(reviews);
+    console.log(reviews2);
+    res.status(200).send({ reviews: reviews.length == 0 ? reviews2 : reviews });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: "Failed to fetch reviews" });
   }
 };
